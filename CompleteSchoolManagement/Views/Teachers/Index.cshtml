@@ -1,0 +1,51 @@
+﻿@model IEnumerable<CompleteSchoolManagement.Models.Teacher>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Teacher</h2>
+<p>
+    <a class="btn btn-outline-success w-100" href="@Url.Action("Create","Teachers")">Create</a>
+    @*@Html.ActionLink("Create New", "Create", new { @class = "btn btn-outline-dark" })*@
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            <a class="btn btn-outline-warning" href="@Url.Action("Edit","Teachers",new {id=item.Id })">Edit</a> |
+            <a class="btn btn-outline-info" href="@Url.Action("Details","Teachers",new {id=item.Id })">Details</a> |
+            <a class="btn btn-outline-danger" href="@Url.Action("Delete","Teachers",new {id=item.Id })">Delete</a>
+        </td>
+    </tr>
+}
+
+</table>

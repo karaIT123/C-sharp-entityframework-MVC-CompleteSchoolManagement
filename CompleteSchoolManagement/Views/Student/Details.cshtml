@@ -1,0 +1,74 @@
+﻿@model CompleteSchoolManagement.Models.Student
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My account</h2>
+
+<div>
+  
+    <hr />
+  
+
+    <div style="        
+        background-color: white;
+        padding: 10px;
+        border: 1px solid #bdc3c7;
+        border-radius: 5px;
+">
+        <h1 class="display-4">Details</h1>
+        <hr />
+        @Html.HiddenFor(model => model.Id)
+        <p class="my-2">
+            <span class="fw-bold"> @Html.DisplayNameFor(model => model.FirstName)</span>
+            @Html.DisplayFor(model => model.FirstName)
+        </p>
+
+        <p class="my-2">
+            <span class="fw-bold"> @Html.DisplayNameFor(model => model.LastName)</span>
+            @Html.DisplayFor(model => model.LastName)
+        </p>
+
+        <p class="my-2">
+            <span class="fw-bold"> @Html.DisplayNameFor(model => model.Email)</span>
+            @Html.DisplayFor(model => model.Email)
+        </p>
+
+        <p class="my-2">
+            <span class="fw-bold"> @Html.DisplayNameFor(model => model.Grade)</span>
+            @Html.DisplayFor(model => model.Grade)
+        </p>
+
+        <p class="my-2">
+            <span class="fw-bold"> @Html.DisplayNameFor(model => model.UserName)</span>
+            @Html.DisplayFor(model => model.UserName)
+        </p>
+
+        <p class="my-2">
+            <span class="fw-bold"> @Html.DisplayNameFor(model => model.Password)</span>
+            ************************
+        </p>
+
+        @Html.HiddenFor(model => model.Password)
+        @Html.HiddenFor(model => model.isFirstLogin)
+
+
+        <hr class="my-4">
+
+        <p class="lead">
+            <div class="d-flex bd-highlight">
+                <div class="p-2 flex-fill bd-highlight">
+                    <a class="btn btn-outline-primary btn-lg w-100" href="@Url.Action("Edit/"+@Html.DisplayFor(m => m.Id), "Student")" role="button">Edit my account</a>
+                </div>
+                <div class="p-2 flex-fill bd-highlight">
+                    <a class="btn btn-outline-info btn-lg w-100" href="@Url.Action("SubscribeToCourses","Student",new { id = Model.Id})" role="button">Subscribe to a course</a>
+                </div>
+                <div class="p-2 flex-fill bd-highlight">
+                    <a class="btn btn-outline-success btn-lg w-100" href="@Url.Action("MyCourses","Student",new { id = Model.Id})" role="button">My courses</a>
+                </div>
+            </div>
+        </p>
+    </div>
+</div>

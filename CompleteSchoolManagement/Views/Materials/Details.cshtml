@@ -1,0 +1,67 @@
+﻿@model CompleteSchoolManagement.Models.Material
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    @*<h4>Material</h4>*@
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Movie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Movie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Laboratory)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Laboratory)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Exercise)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Exercise)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solution)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Courses.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Courses.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <a class="btn btn-outline-warning w-100" href="@Url.Action("Edit", "Materials", new { id = Model.Id })">Edit</a> 
+    <a class="btn btn-outline-dark w-100 mt-1" href="@Url.Action("Index")">Back to List</a>
+</p>
