@@ -8,6 +8,7 @@
 <h2>Details</h2>
 
 <div>
+    <h4>Courses</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -50,11 +51,17 @@
             @Html.DisplayFor(model => model.Grade)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Teacher.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Teacher.UserName)
+        </dd>
+
     </dl>
 </div>
 <p>
-    <a class="btn btn-outline-warning w-100" href="@Url.Action("Edit", "Courses", new { id = Model.Id })">Edit</a>
-    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id })*@ 
-    <a class="btn btn-outline-dark w-100 mt-1" href="@Url.Action("Index")">Back to List</a>
-    @*@Html.ActionLink("Back to List", "Index")*@
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
 </p>

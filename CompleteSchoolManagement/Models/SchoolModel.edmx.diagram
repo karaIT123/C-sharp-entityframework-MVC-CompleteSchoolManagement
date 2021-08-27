@@ -11,6 +11,7 @@
         <AssociationConnector Association="SchoolModel.CoursesMaterial" />
         <EntityTypeShape EntityType="SchoolModel.Teacher" Width="1.5" PointX="3.375" PointY="0.5" />
         <AssociationConnector Association="SchoolModel.StudentCourses" />
+        <AssociationConnector Association="SchoolModel.TeacherCourses" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/23/2021 21:35:54
--- Generated from EDMX file: C:\Users\15147\source\repos\CompleteSchoolManagement\CompleteSchoolManagement\Models\SchoolModel.edmx
+-- Date Created: 08/26/2021 14:54:25
+-- Generated from EDMX file: \\vmware-host\Shared Folders\Bureau\CompleteSchoolManagement\CompleteSchoolManagement\Models\SchoolModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [C:\USERS\15147\SOURCE\REPOS\COMPLETESCHOOLMANAGEMENT\COMPLETESCHOOLMANAGEMENT\APP_DATA\SCHOOLDB.MDF];
+USE  [\\VMWARE-HOST\SHARED FOLDERS\BUREAU\COMPLETESCHOOLMANAGEMENT\COMPLETESCHOOLMANAGEMENT\APP_DATA\SCHOOLDB.MDF];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -68,11 +68,11 @@ GO
 CREATE TABLE [dbo].[CoursesSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [StudentId] int  NOT NULL,
     [Code] nvarchar(max)  NOT NULL,
-    [Description] nvarchar(max)  NOT NULL,
     [StartDate] datetime  NOT NULL,
-    [EndDate] datetime  NOT NULL
+    [EndDate] datetime  NOT NULL,
+    [Grade] nvarchar(50)  NOT NULL,
+    [TeacherId] int  NOT NULL
 );
 GO
 
@@ -180,6 +180,21 @@ GO
 CREATE INDEX [IX_FK_StudentCourses_Courses]
 ON [dbo].[StudentCourses]
     ([Courses_Id]);
+GO
+
+-- Creating foreign key on [TeacherId] in table 'CoursesSet'
+ALTER TABLE [dbo].[CoursesSet]
+ADD CONSTRAINT [FK_TeacherCourses]
+    FOREIGN KEY ([TeacherId])
+    REFERENCES [dbo].[TeacherSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TeacherCourses'
+CREATE INDEX [IX_FK_TeacherCourses]
+ON [dbo].[CoursesSet]
+    ([TeacherId]);
 GO
 
 -- --------------------------------------------------

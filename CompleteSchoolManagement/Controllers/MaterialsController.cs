@@ -12,11 +12,15 @@ namespace CompleteSchoolManagement.Controllers
 {
     public class MaterialsController : Controller
     {
-        private SchoolModelContainer db = new SchoolModelContainer();
+        private readonly SchoolModelContainer db = new SchoolModelContainer();
+        private readonly LogModel logModel = new LogModel();
 
         // GET: Materials
         public ActionResult Index()
         {
+            if (!logModel.IsLoggedTeacher)
+                return RedirectToAction("Teacher", "Home");
+
             var materialSet = db.MaterialSet.Include(m => m.Courses);
             return View(materialSet.ToList());
         }
@@ -24,21 +28,39 @@ namespace CompleteSchoolManagement.Controllers
         // GET: Materials/Details/5
         public ActionResult Details(int? id)
         {
+            if (!logModel.IsLoggedTeacher)
+                return RedirectToAction("Teacher", "Home");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Material material = db.MaterialSet.Find(id);
+            
+            //Material material = db.MaterialSet.Find(id);
+            //if (material == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(material);
+
+            Material material = db.CoursesSet.Find(id).Material.FirstOrDefault();
+
             if (material == null)
             {
-                return HttpNotFound();
+                ViewBag.NoMaterials = true;
+                return View(material);
+                //return HttpNotFound();
             }
+
             return View(material);
         }
 
         // GET: Materials/Create
         public ActionResult Create()
         {
+            if (!logModel.IsLoggedTeacher)
+                return RedirectToAction("Teacher", "Home");
+
             ViewBag.CoursesId = new SelectList(db.CoursesSet, "Id", "Name");
             return View();
         }
@@ -64,6 +86,9 @@ namespace CompleteSchoolManagement.Controllers
         // GET: Materials/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!logModel.IsLoggedTeacher)
+                return RedirectToAction("Teacher", "Home");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -97,6 +122,9 @@ namespace CompleteSchoolManagement.Controllers
         // GET: Materials/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!logModel.IsLoggedTeacher)
+                return RedirectToAction("Teacher", "Home");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

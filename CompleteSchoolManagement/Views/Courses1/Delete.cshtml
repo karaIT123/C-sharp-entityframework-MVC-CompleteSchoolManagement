@@ -1,13 +1,15 @@
 ﻿@model CompleteSchoolManagement.Models.Courses
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Delete</h2>
 
+<h3>Are you sure you want to delete this?</h3>
 <div>
+    <h4>Courses</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -50,11 +52,22 @@
             @Html.DisplayFor(model => model.Grade)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Teacher.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Teacher.UserName)
+        </dd>
+
     </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
 </div>
-<p>
-    <a class="btn btn-outline-warning w-100" href="@Url.Action("Edit", "Courses", new { id = Model.Id })">Edit</a>
-    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id })*@ 
-    <a class="btn btn-outline-dark w-100 mt-1" href="@Url.Action("Index")">Back to List</a>
-    @*@Html.ActionLink("Back to List", "Index")*@
-</p>

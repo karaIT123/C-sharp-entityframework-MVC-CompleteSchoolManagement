@@ -1,12 +1,15 @@
 ﻿@model IEnumerable<CompleteSchoolManagement.Models.Courses>
 
 @{
-    ViewBag.Title = "MyCourses";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>MyCourses</h2>
+<h2>Index</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
@@ -23,6 +26,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Grade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Teacher.UserName)
         </th>
         <th></th>
     </tr>
@@ -45,11 +51,14 @@
             @Html.DisplayFor(modelItem => item.Grade)
         </td>
         <td>
-            @Html.ActionLink("Unsubscribre", "RemoveCourses", new { coursesId=item.Id, studentId = ViewBag.sId}) |
-            @Html.ActionLink("Material", "Material", new { id=item.Id }) 
+            @Html.DisplayFor(modelItem => item.Teacher.UserName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
 }
 
 </table>
-<a href=" @Url.Action("Details", "Student", new { id = ViewBag.sId }) " class="btn btn-danger w-100">Back</a>

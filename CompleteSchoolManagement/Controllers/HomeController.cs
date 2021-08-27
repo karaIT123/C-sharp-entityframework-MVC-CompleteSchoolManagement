@@ -9,11 +9,15 @@ namespace CompleteSchoolManagement.Controllers
 {
     public class HomeController : Controller
     {
-        string adminUsername = "root";
-        string adminPassword = "root";
-        SchoolModelContainer context = new SchoolModelContainer();
+        readonly string adminUsername = "root";
+        readonly string adminPassword = "root";
+        readonly SchoolModelContainer context = new SchoolModelContainer();
+        readonly LogModel logModel = new LogModel();
+
         public ActionResult Index()
         {
+
+
             ViewBag.error = "";
             return View();
         }
@@ -31,12 +35,27 @@ namespace CompleteSchoolManagement.Controllers
 
                 if (s.isFirstLogin == "true")
                 {
-                    return RedirectToAction("ChangePassword/" + s.Id, "Home");
+                    //return RedirectToAction("ChangePassword/" + s.Id, "Home");
+                    if (!logModel.IsLoggedStudent)
+                        return RedirectToAction("Index", "Home");
+
+                    return RedirectToAction("ChangePassword","Home", new { s.Id });
                 }
                 else
                 {
-                    Session["user"] = s.Id;
-                    return RedirectToAction("Details/" + s.Id, "Student");
+                    if(!logModel.IsLoggedStudent)
+                    {
+                        logModel.StudentSession = s.Id;
+                    }
+                    else
+                    {
+                        int id = logModel.StudentSession;
+                        return RedirectToAction("Details", "Student", new { s.Id });
+                    }
+                 
+                    //Session["user"] = s.Id;
+                    //return RedirectToAction("Details/" + s.Id, "Student");
+                    return RedirectToAction("Details","Student" , new { s.Id });
                 }
             }
             else
@@ -51,16 +70,18 @@ namespace CompleteSchoolManagement.Controllers
 
         public ActionResult Teacher()
         {
-            //ViewBag.error = "";
+            ViewBag.error = "";
             return View();
         }
 
         [HttpPost]
         public ActionResult Teacher(Teacher teacher)
         {
+    
             //int count = context.StudentSet.Count();
-            if(teacher.UserName == adminUsername && teacher.Password == adminPassword)
+            if (teacher.UserName == adminUsername && teacher.Password == adminPassword)
             {
+                logModel.TeacherSession = 99999;
                 return RedirectToAction("Index", "Teachers");
             }
 
@@ -69,7 +90,8 @@ namespace CompleteSchoolManagement.Controllers
             if (teacherCount > 0)
             {
                 Teacher t = context.TeacherSet.Where(x => x.UserName == teacher.UserName && x.Password == teacher.Password).FirstOrDefault();
-                return RedirectToAction("Index", "Courses");
+                logModel.TeacherSession = t.Id;
+                return RedirectToAction("Index", "Courses", new { id = t.Id });
             }
             else
             {
@@ -83,12 +105,18 @@ namespace CompleteSchoolManagement.Controllers
 
         public ActionResult ChangePassword(int id)
         {
+            if (!logModel.IsLoggedStudent)
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
 
         [HttpPost]
         public ActionResult ChangePassword(int id, Student student)
         {
+            if (!logModel.IsLoggedStudent)
+                return RedirectToAction("Index", "Home");
+
             Student s = context.StudentSet.Find(id);
             s.UserName = student.UserName;
             s.Password = student.Password;
@@ -99,15 +127,18 @@ namespace CompleteSchoolManagement.Controllers
             return RedirectToAction("Index","Home");
         }
 
-        public ActionResult Home()
+        public ActionResult LogOut()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            logModel.LogOut();
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult About()
         {
+            if (!logModel.IsLoggedStudent)
+                return RedirectToAction("Index", "Home");
+
+
             ViewBag.Message = "Your application description page.";
 
             return View();
@@ -115,6 +146,9 @@ namespace CompleteSchoolManagement.Controllers
 
         public ActionResult Contact()
         {
+            if (!logModel.IsLoggedStudent)
+                return RedirectToAction("Index", "Home");
+
             ViewBag.Message = "Your contact page.";
 
             return View();

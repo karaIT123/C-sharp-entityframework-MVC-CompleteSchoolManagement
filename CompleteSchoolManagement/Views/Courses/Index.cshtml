@@ -5,8 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Courses</h2>
-<a href="@Url.Action("Index","Materials")" class="btn btn-outline-dark w-100 mt-3 mb-1">Go To Materials</a>
+@*<h2>Courses</h2>*@
+@*<a href="@Url.Action("Index","Materials")" class="btn btn-outline-dark w-100 mt-3 mb-1">Go To Materials</a>*@
 <p>
     <a class="btn btn-outline-primary w-100" href="@Url.Action("Create","Courses")">Create</a>
     @*@Html.ActionLink("Create New", "Create")*@
@@ -54,7 +54,8 @@
             <a class="btn btn-outline-info" href="@Url.Action("Details","Courses", new { id = item.Id })">Details</a>
             @*@Html.ActionLink("Details", "Details", new { id = item.Id })*@ |
             <a class="btn btn-outline-danger" href="@Url.Action("Delete","Courses", new { id = item.Id })">Delete</a>
-            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@ |
+            <a class="btn btn-outline-secondary" href="@Url.Action("Details","Materials", new { id = item.Id })">Material</a>
         </td>
     </tr>
 }

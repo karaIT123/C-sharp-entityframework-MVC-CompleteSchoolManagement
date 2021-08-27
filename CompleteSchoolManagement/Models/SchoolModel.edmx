@@ -4,117 +4,134 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SchoolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="CoursesSet">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="StartDate" Type="datetime" Nullable="false" />
-          <Property Name="EndDate" Type="datetime" Nullable="false" />
-          <Property Name="Grade" Type="nvarchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="MaterialSet">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Movie" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Laboratory" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Exercise" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Solution" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="CoursesId" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="StudentCourses">
-          <Key>
-            <PropertyRef Name="Student_Id" />
-            <PropertyRef Name="Courses_Id" />
-          </Key>
-          <Property Name="Student_Id" Type="int" Nullable="false" />
-          <Property Name="Courses_Id" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="StudentSet">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Grade" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="isFirstLogin" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TeacherSet">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_CoursesMaterial">
-          <End Role="CoursesSet" Type="Self.CoursesSet" Multiplicity="1" />
-          <End Role="MaterialSet" Type="Self.MaterialSet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CoursesSet">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MaterialSet">
-              <PropertyRef Name="CoursesId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StudentCourses_Courses">
-          <End Role="CoursesSet" Type="Self.CoursesSet" Multiplicity="1" />
-          <End Role="StudentCourses" Type="Self.StudentCourses" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CoursesSet">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StudentCourses">
-              <PropertyRef Name="Courses_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StudentCourses_Student">
-          <End Role="StudentSet" Type="Self.StudentSet" Multiplicity="1" />
-          <End Role="StudentCourses" Type="Self.StudentCourses" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StudentSet">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StudentCourses">
-              <PropertyRef Name="Student_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="SchoolModelStoreContainer">
-          <EntitySet Name="CoursesSet" EntityType="Self.CoursesSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MaterialSet" EntityType="Self.MaterialSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="StudentCourses" EntityType="Self.StudentCourses" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="StudentSet" EntityType="Self.StudentSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TeacherSet" EntityType="Self.TeacherSet" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_CoursesMaterial" Association="Self.FK_CoursesMaterial">
-            <End Role="CoursesSet" EntitySet="CoursesSet" />
-            <End Role="MaterialSet" EntitySet="MaterialSet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StudentCourses_Courses" Association="Self.FK_StudentCourses_Courses">
-            <End Role="CoursesSet" EntitySet="CoursesSet" />
-            <End Role="StudentCourses" EntitySet="StudentCourses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StudentCourses_Student" Association="Self.FK_StudentCourses_Student">
-            <End Role="StudentSet" EntitySet="StudentSet" />
-            <End Role="StudentCourses" EntitySet="StudentCourses" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="SchoolModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="SchoolModelStoreContainer">
+    <EntitySet Name="StudentSet" EntityType="SchoolModel.Store.StudentSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CoursesSet" EntityType="SchoolModel.Store.CoursesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MaterialSet" EntityType="SchoolModel.Store.MaterialSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TeacherSet" EntityType="SchoolModel.Store.TeacherSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="StudentCourses" EntityType="SchoolModel.Store.StudentCourses" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="CoursesMaterial" Association="SchoolModel.Store.CoursesMaterial">
+      <End Role="Courses" EntitySet="CoursesSet" />
+      <End Role="Material" EntitySet="MaterialSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentCourses_Student" Association="SchoolModel.Store.FK_StudentCourses_Student">
+      <End Role="Student" EntitySet="StudentSet" />
+      <End Role="StudentCourses" EntitySet="StudentCourses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentCourses_Courses" Association="SchoolModel.Store.FK_StudentCourses_Courses">
+      <End Role="Courses" EntitySet="CoursesSet" />
+      <End Role="StudentCourses" EntitySet="StudentCourses" />
+    </AssociationSet>
+    <AssociationSet Name="TeacherCourses" Association="SchoolModel.Store.TeacherCourses">
+      <End Role="Teacher" EntitySet="TeacherSet" />
+      <End Role="Courses" EntitySet="CoursesSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="StudentSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Grade" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="isFirstLogin" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CoursesSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="false" />
+    <Property Name="Grade" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="TeacherId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MaterialSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Movie" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Laboratory" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Exercise" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Solution" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CoursesId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TeacherSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StudentCourses">
+    <Key>
+      <PropertyRef Name="Student_Id" />
+      <PropertyRef Name="Courses_Id" />
+    </Key>
+    <Property Name="Student_Id" Type="int" Nullable="false" />
+    <Property Name="Courses_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="CoursesMaterial">
+    <End Role="Courses" Type="SchoolModel.Store.CoursesSet" Multiplicity="1" />
+    <End Role="Material" Type="SchoolModel.Store.MaterialSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Courses">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Material">
+        <PropertyRef Name="CoursesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TeacherCourses">
+    <End Role="Teacher" Type="SchoolModel.Store.TeacherSet" Multiplicity="1" />
+    <End Role="Courses" Type="SchoolModel.Store.CoursesSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Courses">
+        <PropertyRef Name="TeacherId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentCourses_Student">
+    <End Role="Student" Type="SchoolModel.Store.StudentSet" Multiplicity="1" />
+    <End Role="StudentCourses" Type="SchoolModel.Store.StudentCourses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentCourses">
+        <PropertyRef Name="Student_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentCourses_Courses">
+    <End Role="StudentCourses" Type="SchoolModel.Store.StudentCourses" Multiplicity="*" />
+    <End Role="Courses" Type="SchoolModel.Store.CoursesSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Courses">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentCourses">
+        <PropertyRef Name="Courses_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="SchoolModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -129,6 +146,10 @@
           <EntitySet Name="TeacherSet" EntityType="SchoolModel.Teacher" />
           <AssociationSet Name="StudentCourses" Association="SchoolModel.StudentCourses">
             <End Role="Student" EntitySet="StudentSet" />
+            <End Role="Courses" EntitySet="CoursesSet" />
+          </AssociationSet>
+          <AssociationSet Name="TeacherCourses" Association="SchoolModel.TeacherCourses">
+            <End Role="Teacher" EntitySet="TeacherSet" />
             <End Role="Courses" EntitySet="CoursesSet" />
           </AssociationSet>
         </EntityContainer>
@@ -158,6 +179,7 @@
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Grade" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Teacher" Relationship="SchoolModel.TeacherCourses" FromRole="Courses" ToRole="Teacher" />
           <Property Name="TeacherId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Material">
@@ -194,10 +216,23 @@
           <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Courses" Relationship="SchoolModel.TeacherCourses" FromRole="Teacher" ToRole="Courses" />
         </EntityType>
         <Association Name="StudentCourses">
           <End Type="SchoolModel.Student" Role="Student" Multiplicity="*" />
           <End Type="SchoolModel.Courses" Role="Courses" Multiplicity="*" />
+        </Association>
+        <Association Name="TeacherCourses">
+          <End Type="SchoolModel.Teacher" Role="Teacher" Multiplicity="1" />
+          <End Type="SchoolModel.Courses" Role="Courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Courses">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -222,12 +257,13 @@
     <EntitySetMapping Name="CoursesSet">
       <EntityTypeMapping TypeName="IsTypeOf(SchoolModel.Courses)">
         <MappingFragment StoreEntitySet="CoursesSet">
-          <ScalarProperty Name="Grade" ColumnName="Grade" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="StartDate" ColumnName="StartDate" />
           <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="Grade" ColumnName="Grade" />
+          <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

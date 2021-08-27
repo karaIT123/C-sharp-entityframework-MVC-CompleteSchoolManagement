@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CompleteSchoolManagement.Models;
@@ -9,20 +10,25 @@ namespace CompleteSchoolManagement.Controllers
 {
     public class StudentController : Controller
     {
-        SchoolModelContainer context = new SchoolModelContainer();
-        EmailModel email = new EmailModel();
-
-        int used = new int();
+        private readonly SchoolModelContainer context = new SchoolModelContainer();
+        private readonly EmailModel email = new EmailModel();
+        private readonly LogModel logModel = new LogModel();
         
         // GET: Student
         public ActionResult Index()
         {
+            if (!logModel.IsLoggedStudent)
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
 
         // GET: Student/Details/5
         public ActionResult Details(int id)
         {
+            if (!logModel.IsLoggedStudent)
+                return RedirectToAction("Index", "Home");
+
             Student student = context.StudentSet.Find(id);
             return View(student);
         }
@@ -30,6 +36,9 @@ namespace CompleteSchoolManagement.Controllers
         // GET: Student/Create
         public ActionResult Create()
         {
+            if (!logModel.IsLoggedStudent)
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
 
@@ -41,7 +50,7 @@ namespace CompleteSchoolManagement.Controllers
             {
                 
                 Student filledStudent = FillStudentForLogin(student);
-                string msg = generateEmail(filledStudent);
+                string msg = GenerateEmail(filledStudent);
                 email.SendEmail(filledStudent.Email,"Information de connection",msg);
                 context.StudentSet.Add(filledStudent);
                 context.SaveChanges();
@@ -68,7 +77,7 @@ namespace CompleteSchoolManagement.Controllers
             return student;
         }
 
-        String generateEmail(Student student)
+        String GenerateEmail(Student student)
         {
             string msg = "<html lang='en'>" +
                 "<head>" +
@@ -111,6 +120,9 @@ namespace CompleteSchoolManagement.Controllers
         // GET: Student/Edit/5
         public ActionResult Edit(int id)
         {
+            if (!logModel.IsLoggedStudent)
+                return RedirectToAction("Index", "Home");
+
             ViewBag.id = id;
             return View();
         }
@@ -130,12 +142,8 @@ namespace CompleteSchoolManagement.Controllers
                 s.Password = String.IsNullOrEmpty(student.Password) ? s.Password : student.Password;
                 s.Grade = String.IsNullOrEmpty(student.Grade) ? s.Grade : student.Grade;
 
-
-
-
                 context.SaveChanges();
                 
-
                 return RedirectToAction("Details/" + id, "Student");
             }
             catch
@@ -147,23 +155,21 @@ namespace CompleteSchoolManagement.Controllers
         // GET: Student/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            if (!logModel.IsLoggedStudent)
+                return RedirectToAction("Index", "Home");
+
+            Student student = context.StudentSet.Find(id) ;
+            return View(student);
         }
 
         // POST: Student/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult DeleteConfirmed(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            Student student = context.StudentSet.Find(id);
+            context.StudentSet.Remove(student);
+            context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         public ActionResult SubscribeToCourses(int id)
@@ -195,17 +201,23 @@ namespace CompleteSchoolManagement.Controllers
 
             return View(lc);
         }
-
-        
+ 
         public ActionResult Material(int id)
         {
+            if (!logModel.IsLoggedStudent)
+                return RedirectToAction("Index", "Home");
+
             int rId = Convert.ToInt32(Session["user"]);
             ViewBag.rId = rId;
             Material m = context.CoursesSet.Find(id).Material.FirstOrDefault();
             return View(m);
         }
+
         public ActionResult MyCourses(int id)
         {
+            if (!logModel.IsLoggedStudent)
+                return RedirectToAction("Index", "Home");
+
             ViewBag.sId = id;
             List<Courses> lc = context.StudentSet.Find(id).Courses.ToList();
             return View(lc);

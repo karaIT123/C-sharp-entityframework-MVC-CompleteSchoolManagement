@@ -45,7 +45,7 @@ namespace CompleteSchoolManagement.Models
             }
             catch (Exception e)
             {
-                
+                Console.WriteLine(e.Message);
             }
         }
 
@@ -81,12 +81,14 @@ namespace CompleteSchoolManagement.Models
                 string Body = message;
                 mail.Body = Body;
                 mail.IsBodyHtml = true;
-                SmtpClient smtp = new SmtpClient();
-                smtp.Host = "smtp.gmail.com";
-                smtp.Port = 587;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new System.Net.NetworkCredential("karacoulibaly200@gmail.com", "Mariam98"); // Enter seders User name and password  
-                smtp.EnableSsl = true;
+                SmtpClient smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    UseDefaultCredentials = false,
+                    Credentials = new System.Net.NetworkCredential("karacoulibaly200@gmail.com", "Mariam98"), // Enter seders User name and password  
+                    EnableSsl = true
+                };
                 smtp.Send(mail);
             }
             catch (Exception)

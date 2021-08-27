@@ -12,17 +12,26 @@ namespace CompleteSchoolManagement.Controllers
 {
     public class CoursesController : Controller
     {
-        private SchoolModelContainer db = new SchoolModelContainer();
+        private readonly SchoolModelContainer db = new SchoolModelContainer();
+        private readonly LogModel logModel = new LogModel();
 
         // GET: Courses
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View(db.CoursesSet.ToList());
+            if (!logModel.IsLoggedTeacher)
+                return RedirectToAction("Teacher", "Home");
+
+            Teacher t = db.TeacherSet.Find(id);
+
+            return View(t.Courses.ToList());
         }
 
         // GET: Courses/Details/5
         public ActionResult Details(int? id)
         {
+            if (!logModel.IsLoggedTeacher)
+                return RedirectToAction("Teacher", "Home");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -38,6 +47,11 @@ namespace CompleteSchoolManagement.Controllers
         // GET: Courses/Create
         public ActionResult Create()
         {
+            if (!logModel.IsLoggedTeacher)
+                return RedirectToAction("Teacher", "Home");
+
+            ViewBag.TeacherId = new SelectList(db.TeacherSet, "Id", "UserName");
+            ViewBag.tID = logModel.TeacherSession;
             return View();
         }
 
@@ -48,11 +62,13 @@ namespace CompleteSchoolManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Code,StartDate,EndDate,Grade")] Courses courses)
         {
+            ViewBag.tID = logModel.TeacherSession;
             if (ModelState.IsValid)
             {
+                courses.TeacherId = Convert.ToInt32(logModel.TeacherSession);
                 db.CoursesSet.Add(courses);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = ViewBag.tID });
             }
 
             return View(courses);
@@ -61,6 +77,9 @@ namespace CompleteSchoolManagement.Controllers
         // GET: Courses/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!logModel.IsLoggedTeacher)
+                return RedirectToAction("Teacher", "Home");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -84,7 +103,7 @@ namespace CompleteSchoolManagement.Controllers
             {
                 db.Entry(courses).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { logModel.TeacherSession });
             }
             return View(courses);
         }
@@ -92,6 +111,9 @@ namespace CompleteSchoolManagement.Controllers
         // GET: Courses/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!logModel.IsLoggedTeacher)
+                return RedirectToAction("Teacher", "Home");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
